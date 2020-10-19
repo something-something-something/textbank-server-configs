@@ -1,0 +1,17 @@
+[Unit]
+Description=mongodb textbank
+After=docker.service
+Wants=docker.service
+After=network-online.target
+Requires=network-online.target
+[Service]
+TimeoutStartSec=infinity
+Restart=always
+ExecStartPre=-/usr/bin/docker network create -d bridge textbanknet
+ExecStartPre=-/usr/bin/docker kill textbank-mongo
+ExecStartPre=-/usr/bin/docker rm textbank-mongo
+ExecStartPre=/usr/bin/docker pull mongo:4.4
+ExecStart=/usr/bin/docker run --network textbanknet --name textbank-mongo -v mongoData:/data/db -v /var/textbank/mongoBackupRestore:/backupRestore mongo:4.4
+ExecStop=/usr/bin/docker stop textbank-mongo
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+{
+	admin off
+	#acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+{$TEXTBANK_ADDRESS} {
+	encode {
+		gzip
+	}
+	reverse_proxy http://textbank-node:3000 
+}
+
