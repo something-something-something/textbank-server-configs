@@ -13,7 +13,7 @@ ExecStartPre=-/usr/bin/docker network create -d bridge textbanknet
 ExecStartPre=-/usr/bin/docker kill textbank-node
 ExecStartPre=-/usr/bin/docker rm textbank-node
 #ExecStartPre=-/usr/bin/docker rmi textbank-node-img
-ExecStartPre=/usr/bin/docker pull node:latest
+ExecStartPre=/usr/bin/docker pull node:14
 ExecStartPre=/usr/bin/docker build https://github.com/something-something-something/textbank-app.git --tag textbank-node-img
 ExecStart=/usr/bin/docker run --network textbanknet --env URLMONGO='mongodb://textbank-mongo/textbank' --env MONGOSESSIONURI='mongodb://textbank-mongo/textbank-session' --env MONGOSESSIONCOLLECTION='keystoneSessions' --env NODE_ENV=production  --env-file /var/textbank/textbank-node.env --name textbank-node textbank-node-img
 ExecStop=/usr/bin/docker stop textbank-node
